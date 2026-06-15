@@ -4,11 +4,16 @@
 
 **Goal:** Stand up the Nx monorepo with three apps, four shared-lib stubs, local Postgres+Redis, health checks, and a passing smoke e2e — the wired-but-empty skeleton every later sprint builds on.
 
-**Architecture:** Nx integrated monorepo. `apps/web` (Angular), `apps/api` (NestJS REST), `apps/realtime` (NestJS WS). Shared plain-TS libs under `libs/shared/*` (scope `@synca`). Jest for unit, Playwright for e2e. Postgres 16 + Redis 7 via docker-compose.
+**Architecture:** Nx integrated monorepo. `apps/web` (Angular), `apps/api` (NestJS REST), `apps/realtime` (NestJS WS). Shared plain-TS libs under `libs/shared/*` (scope `@synca`). Jest for unit, Playwright for e2e. Postgres 18 + Redis 8 via docker-compose.
 
 **Tech Stack:** Nx, Angular, NestJS, TypeScript, Jest, Playwright, Docker Compose (Postgres, Redis).
 
-**Prerequisites:** Node.js v20.19+ and npm installed; Docker Desktop running. Current branch `feat/collaborative-whiteboard`.
+**Prerequisites:** Node.js ≥ 20.19 (24 LTS recommended — see Versioning policy) and npm installed; Docker Desktop running. Current branch `feat/collaborative-whiteboard`.
+
+**Versioning policy (project-wide): use the latest stable releases.**
+- **Databases — pinned to current latest-stable majors:** Postgres **18**, Redis **8** (see `docker-compose.yml` below). Pin the major in the image tag so builds are reproducible.
+- **Node.js:** target the latest Active LTS (**24**); hard floor 20.19 (Nx/Angular requirement). The dev machine is on 22.14.0, which works — bumping to 24 LTS is recommended; optionally add an `.nvmrc` containing `24`.
+- **JS tooling & libraries:** `create-nx-workspace@latest` and `nx add @nx/...` already install the latest compatible Nx/Angular/NestJS. Libraries added in later sprints should be installed with `@latest`. Current latest at time of writing (for reference): Nx 22.7.x, Angular 22.0.x, NestJS 11.1.x, Yjs 13.6.x, Konva 10.3.x, @nestjs/jwt 11.0.x, ws 8.21.x. Always commit the resulting `package-lock.json`.
 
 ---
 
@@ -372,7 +377,7 @@ git commit -m "feat(realtime): add /health endpoint"
 ```yaml
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: whiteboard
@@ -389,7 +394,7 @@ services:
       retries: 10
 
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     restart: unless-stopped
     ports:
       - '6379:6379'

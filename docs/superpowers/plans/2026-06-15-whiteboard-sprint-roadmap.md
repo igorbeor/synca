@@ -47,5 +47,6 @@ _TBW = to be written (just-in-time)._
 - **Apps:** `apps/web` (Angular), `apps/api` (NestJS REST), `apps/realtime` (NestJS WS).
 - **Libs:** `libs/shared/{board-model,protocol,collab-core,util}` (plain TS via `@nx/js`).
 - **Unit/integration tests:** Jest (Nx default). **E2E:** Playwright.
-- **Local infra:** `docker-compose.yml` → Postgres 16 + Redis 7.
+- **Local infra:** `docker-compose.yml` → Postgres 18 + Redis 8 (latest stable majors).
 - **Package manager:** npm.
+- **Versioning:** use the latest stable releases. DB majors pinned (Postgres 18, Redis 8); Node target 24 LTS (floor 20.19); JS deps installed via `nx add` / `@latest` and locked via `package-lock.json`. See the Sprint 0 plan's *Versioning policy* for specifics.
