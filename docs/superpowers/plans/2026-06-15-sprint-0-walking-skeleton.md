@@ -4,7 +4,7 @@
 
 **Goal:** Stand up the Nx monorepo with three apps, four shared-lib stubs, local Postgres+Redis, health checks, and a passing smoke e2e — the wired-but-empty skeleton every later sprint builds on.
 
-**Architecture:** Nx integrated monorepo. `apps/web` (Angular), `apps/api` (NestJS REST), `apps/realtime` (NestJS WS). Shared plain-TS libs under `libs/shared/*` (scope `@ng-chat`). Jest for unit, Playwright for e2e. Postgres 16 + Redis 7 via docker-compose.
+**Architecture:** Nx integrated monorepo. `apps/web` (Angular), `apps/api` (NestJS REST), `apps/realtime` (NestJS WS). Shared plain-TS libs under `libs/shared/*` (scope `@synca`). Jest for unit, Playwright for e2e. Postgres 16 + Redis 7 via docker-compose.
 
 **Tech Stack:** Nx, Angular, NestJS, TypeScript, Jest, Playwright, Docker Compose (Postgres, Redis).
 
@@ -15,7 +15,7 @@
 ## File Structure (created by this sprint)
 
 ```
-ng-chat/
+synca/
 ├── apps/
 │   ├── web/                         Angular app (generated)
 │   ├── web-e2e/                     Playwright e2e for web (generated)
@@ -50,20 +50,20 @@ Run from the repo's parent directory:
 
 ```bash
 cd /Users/igortretak/Desktop/Projects
-npx create-nx-workspace@latest ng-chat-nx --preset=apps --nxCloud=skip --packageManager=npm
+npx create-nx-workspace@latest synca-nx --preset=apps --nxCloud=skip --packageManager=npm
 ```
 
-Expected: a new `ng-chat-nx/` directory containing `nx.json`, `package.json`, `tsconfig.base.json`, an empty `apps/` and `libs/`. (If prompted despite the flags, choose: integrated monorepo / no app yet / skip Nx Cloud.)
+Expected: a new `synca-nx/` directory containing `nx.json`, `package.json`, `tsconfig.base.json`, an empty `apps/` and `libs/`. (If prompted despite the flags, choose: integrated monorepo / no app yet / skip Nx Cloud.)
 
 - [ ] **Step 2: Copy generated files into the existing repo (preserving .git and docs/)**
 
 ```bash
-rsync -a --exclude='.git' /Users/igortretak/Desktop/Projects/ng-chat-nx/ /Users/igortretak/Desktop/Projects/ng-chat/
-rm -rf /Users/igortretak/Desktop/Projects/ng-chat-nx
-cd /Users/igortretak/Desktop/Projects/ng-chat
+rsync -a --exclude='.git' /Users/igortretak/Desktop/Projects/synca-nx/ /Users/igortretak/Desktop/Projects/synca/
+rm -rf /Users/igortretak/Desktop/Projects/synca-nx
+cd /Users/igortretak/Desktop/Projects/synca
 ```
 
-Expected: `ng-chat/` now has `nx.json`, `package.json`, etc.; `docs/` is untouched; temp dir removed.
+Expected: `synca/` now has `nx.json`, `package.json`, etc.; `docs/` is untouched; temp dir removed.
 
 - [ ] **Step 3: Re-add our brainstorm ignore (Nx overwrote .gitignore) and install**
 
@@ -147,7 +147,7 @@ git commit -m "feat: generate web, api, realtime apps"
 
 ## Task 3: Generate the four shared-lib stubs
 
-Plain-TS libs (framework-agnostic), import scope `@ng-chat`.
+Plain-TS libs (framework-agnostic), import scope `@synca`.
 
 **Files:**
 - Create: `libs/shared/board-model/**`, `libs/shared/protocol/**`, `libs/shared/collab-core/**`, `libs/shared/util/**`
@@ -155,10 +155,10 @@ Plain-TS libs (framework-agnostic), import scope `@ng-chat`.
 - [ ] **Step 1: Generate the libs**
 
 ```bash
-npx nx g @nx/js:lib libs/shared/board-model --name=board-model --importPath=@ng-chat/board-model --unitTestRunner=jest --bundler=none --linter=eslint
-npx nx g @nx/js:lib libs/shared/protocol    --name=protocol    --importPath=@ng-chat/protocol    --unitTestRunner=jest --bundler=none --linter=eslint
-npx nx g @nx/js:lib libs/shared/collab-core --name=collab-core --importPath=@ng-chat/collab-core --unitTestRunner=jest --bundler=none --linter=eslint
-npx nx g @nx/js:lib libs/shared/util        --name=util        --importPath=@ng-chat/util        --unitTestRunner=jest --bundler=none --linter=eslint
+npx nx g @nx/js:lib libs/shared/board-model --name=board-model --importPath=@synca/board-model --unitTestRunner=jest --bundler=none --linter=eslint
+npx nx g @nx/js:lib libs/shared/protocol    --name=protocol    --importPath=@synca/protocol    --unitTestRunner=jest --bundler=none --linter=eslint
+npx nx g @nx/js:lib libs/shared/collab-core --name=collab-core --importPath=@synca/collab-core --unitTestRunner=jest --bundler=none --linter=eslint
+npx nx g @nx/js:lib libs/shared/util        --name=util        --importPath=@synca/util        --unitTestRunner=jest --bundler=none --linter=eslint
 ```
 
 Expected: four libs, each with `src/index.ts`, a sample function + spec, and a `tsconfig`. The import paths are registered in `tsconfig.base.json` under `compilerOptions.paths`.
@@ -166,10 +166,10 @@ Expected: four libs, each with `src/index.ts`, a sample function + spec, and a `
 - [ ] **Step 2: Verify the import paths are registered**
 
 ```bash
-grep -E "@ng-chat/(board-model|protocol|collab-core|util)" tsconfig.base.json
+grep -E "@synca/(board-model|protocol|collab-core|util)" tsconfig.base.json
 ```
 
-Expected: four matching lines mapping each `@ng-chat/*` to its `libs/shared/*/src/index.ts`.
+Expected: four matching lines mapping each `@synca/*` to its `libs/shared/*/src/index.ts`.
 
 - [ ] **Step 3: Run the generated lib tests to confirm they pass**
 
@@ -458,7 +458,7 @@ Confirm the Angular app actually serves and renders.
 Replace the body of `apps/web/src/app/app.component.html` with a minimal known heading:
 
 ```html
-<h1>ng-chat whiteboard</h1>
+<h1>synca whiteboard</h1>
 <router-outlet></router-outlet>
 ```
 
@@ -471,7 +471,7 @@ import { test, expect } from '@playwright/test';
 
 test('web app loads and shows the heading', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'ng-chat whiteboard' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'synca whiteboard' })).toBeVisible();
 });
 ```
 
@@ -519,7 +519,7 @@ In root `package.json`, add to the `scripts` object (keep any Nx-generated scrip
 Replace `README.md` with:
 
 ```markdown
-# ng-chat — Collaborative Whiteboard
+# synca — Collaborative Whiteboard
 
 Real-time collaborative whiteboard (Draw.io-style). Nx monorepo: Angular web client,
 NestJS REST API, NestJS realtime (WebSocket) service, Yjs CRDT sync, Redis fan-out,

@@ -113,7 +113,7 @@ typed code between frontend and backend** so contract changes are compile errors
 runtime surprises.
 
 ```
-ng-chat/                       Nx workspace
+synca/                       Nx workspace
 ├── apps/
 │   ├── web/                   Angular SPA — Konva canvas, board UI, Yjs client
 │   ├── api/                   NestJS — stateless REST: boards CRUD, board-token issuance

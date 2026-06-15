@@ -43,7 +43,7 @@ _TBW = to be written (just-in-time)._
 
 ## Conventions fixed in Sprint 0 (later sprints assume these)
 
-- **npm scope:** `@ng-chat` (e.g. `@ng-chat/board-model`).
+- **npm scope:** `@synca` (e.g. `@synca/board-model`).
 - **Apps:** `apps/web` (Angular), `apps/api` (NestJS REST), `apps/realtime` (NestJS WS).
 - **Libs:** `libs/shared/{board-model,protocol,collab-core,util}` (plain TS via `@nx/js`).
 - **Unit/integration tests:** Jest (Nx default). **E2E:** Playwright.
