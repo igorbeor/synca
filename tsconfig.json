@@ -14,6 +14,18 @@
     },
     {
       "path": "./apps/web"
+    },
+    {
+      "path": "./libs/shared/board-model"
+    },
+    {
+      "path": "./libs/shared/protocol"
+    },
+    {
+      "path": "./libs/shared/collab-core"
+    },
+    {
+      "path": "./libs/shared/util"
     }
   ]
 }
