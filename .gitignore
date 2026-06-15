@@ -50,3 +50,7 @@ Thumbs.db
 
 # Brainstorming visual companion
 /.superpowers/
+
+.angular
+
+test-output
