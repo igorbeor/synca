@@ -2,7 +2,13 @@
   "name": "@synca/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev:infra": "docker compose up -d",
+    "dev:api": "nx serve @synca/api",
+    "dev:realtime": "nx serve @synca/realtime",
+    "dev:web": "NX_IGNORE_UNSUPPORTED_TS_SETUP=true nx serve web",
+    "check": "NX_IGNORE_UNSUPPORTED_TS_SETUP=true nx run-many -t lint test"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/core": "~21.2.0",
