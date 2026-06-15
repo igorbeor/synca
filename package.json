@@ -7,7 +7,8 @@
     "dev:api": "nx serve @synca/api",
     "dev:realtime": "nx serve @synca/realtime",
     "dev:web": "NX_IGNORE_UNSUPPORTED_TS_SETUP=true nx serve web",
-    "check": "NX_IGNORE_UNSUPPORTED_TS_SETUP=true nx run-many -t lint test"
+    "check": "NX_IGNORE_UNSUPPORTED_TS_SETUP=true nx run-many -t lint test",
+    "e2e": "nx e2e web-e2e"
   },
   "private": true,
   "devDependencies": {

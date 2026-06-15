@@ -26,7 +26,7 @@ npm run dev:web        # http://localhost:4200
 
 ```bash
 npm run check          # lint + test across all projects
-npx nx e2e web-e2e     # Playwright smoke test (chromium)
+npm run e2e            # Playwright smoke test (chromium)
 ```
 
 > The workspace uses Nx's TypeScript project-references layout; Angular targets run with `NX_IGNORE_UNSUPPORTED_TS_SETUP=true`, which is already wired into the npm scripts above.
