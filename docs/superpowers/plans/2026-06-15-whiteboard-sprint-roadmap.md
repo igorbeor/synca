@@ -50,3 +50,7 @@ _TBW = to be written (just-in-time)._
 - **Local infra:** `docker-compose.yml` → Postgres 18 + Redis 8 (latest stable majors).
 - **Package manager:** npm.
 - **Versioning:** use the latest stable releases. DB majors pinned (Postgres 18, Redis 8); Node target 24 LTS (floor 20.19); JS deps installed via `nx add` / `@latest` and locked via `package-lock.json`. See the Sprint 0 plan's *Versioning policy* for specifics.
+
+## Optimization backlog (deferred)
+
+- **[Sprint 1 candidate] Nest build: webpack → SWC.** The two Nest apps (`@synca/api`, `@synca/realtime`) currently build with Nx's default **webpack** executor — chosen because it emits `emitDecoratorMetadata` for Nest's DI/guards/pipes/`class-validator` with zero config. If build/serve speed becomes a pain point, switch them to **SWC** (Nest's SWC support / `@nx/js:swc`): far faster, but it does **not** emit decorator metadata by default, so the SWC config/plugin and `tsconfig` must be set up to keep Nest DI working. The fast alternative here is **SWC, not Vite** (Vite is a frontend/browser build tool; the Angular `web` app already uses the esbuild/Vite-based Angular builder). Verify the current Nx Nest + SWC setup via ctx7 before applying, and keep all tests green after the switch.
