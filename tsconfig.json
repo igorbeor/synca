@@ -1,0 +1,31 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/api"
+    },
+    {
+      "path": "./apps/realtime"
+    },
+    {
+      "path": "./apps/web-e2e"
+    },
+    {
+      "path": "./apps/web"
+    },
+    {
+      "path": "./libs/shared/board-model"
+    },
+    {
+      "path": "./libs/shared/protocol"
+    },
+    {
+      "path": "./libs/shared/collab-core"
+    },
+    {
+      "path": "./libs/shared/util"
+    }
+  ]
+}
